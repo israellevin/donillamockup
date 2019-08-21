@@ -20,6 +20,13 @@
         window.donilla = {
             spend: function(coins){
                 return new Promise(function(resolve, reject){
+                    coins = parseInt(coins, 10);
+                    if(!coins){
+                        return reject('parameter is not an integer');
+                    }
+                    if(coins < 1){
+                        return reject('parameter is not positive');
+                    }
                     if(coins > 9 || Math.random() < 0.1){
                         return reject('insufficient funds');
                     }
@@ -53,7 +60,7 @@
 </head>
 <body>
     <form id="iframeChooserForm">
-        <input placeholder="name of file to load">
+        <input placeholder="name of file to load (try game.html)" style="width: 20em;">
     </form>
     <iframe id="donillaGame" style="width: 80%; height: 20em;"></iframe>
 </body>

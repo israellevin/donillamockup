@@ -23,9 +23,7 @@
                     let params = Array.from(form.querySelectorAll('input[type=text]')).map(input => input.value);
                     console.log(params);
                     if(params.every(param => param)){
-                        let rc = await donillaFunc.apply(form, params);
-                        console.log(rc)
-                        console.log(form.id + ' result = ' + rc);
+                        console.log(form.id + ' result = ' + await donillaFunc.apply(form, params));
                         return false;
                     }else{
                         throw "missing parameters";
@@ -40,7 +38,7 @@
 <body>
     <form id="spender">
         <input type="submit" value="spend">
-        <input type="text" id="coins" placeholder="num of coins">
+        <input type="text" id="coins" placeholder="num of coins (up to 9)">
     </form>
     <form id="saver">
         <input type="submit" value="save">
