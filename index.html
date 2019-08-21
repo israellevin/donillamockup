@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Donilla framework mockup</title>
+    <script>
+// Donilla container mockup.
+// jshint esversion: 8
+(function(){
+'use strict';
+    window.onload = function(){
+        const donillaGame = document.getElementById('donillaGame');
+        document.getElementById('iframeChooserForm').onsubmit = function(){
+            console.log(this[0].value);
+            donillaGame.src = this[0].value;
+            return false;
+        };
+
+        let userData = {};
+        window.donilla = {
+            spend: function(coins){
+                return new Promise(function(resolve, reject){
+                    if(coins > 9 || Math.random() < 0.1){
+                        return reject('insufficient funds');
+                    }
+                    resolve(true);
+                });
+            },
+            saveUserData: function(key, value){
+                return new Promise(function(resolve, reject){
+                    if(key === 'error' || Math.random() < 0.1){
+                        return reject('network error');
+                    }
+                    userData[key] = value;
+                    resolve(true);
+                });
+            },
+            getUserData: function(key){
+                return new Promise(function(resolve, reject){
+                    if(key === 'error' || Math.random() < 0.1){
+                        return reject('server error');
+                    }
+                    if(!(key in userData)){
+                        return reject('key not found');
+                    }
+                    resolve(userData[key]);
+                });
+            }
+        };
+    };
+}());
+    </script>
+</head>
+<body>
+    <form id="iframeChooserForm">
+        <input placeholder="name of file to load">
+    </form>
+    <iframe id="donillaGame" style="width: 80%; height: 20em;"></iframe>
+</body>
+</html>

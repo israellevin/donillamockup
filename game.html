@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Donilla game mockup</title>
+    <script>
+// Donilla container mockup.
+// jshint esversion: 8
+(function(){
+'use strict';
+    window.onload = function(){
+        for(let form of document.getElementsByTagName('form')){
+            let donillaFunc = false;
+            if(form.id === 'spender'){
+                donillaFunc = parent.donilla.spend;
+            }else if(form.id === 'saver'){
+                donillaFunc = parent.donilla.saveUserData;
+            }else if(form.id === 'getter'){
+                donillaFunc = parent.donilla.getUserData;
+            }
+            if(donillaFunc){
+                form.onsubmit = async function(){
+                    let params = Array.from(form.querySelectorAll('input[type=text]')).map(input => input.value);
+                    console.log(params);
+                    if(params.every(param => param)){
+                        let rc = await donillaFunc.apply(form, params);
+                        console.log(rc)
+                        console.log(form.id + ' result = ' + rc);
+                        return false;
+                    }else{
+                        throw "missing parameters";
+                    }
+                };
+            }
+        }
+    };
+}());
+    </script>
+</head>
+<body>
+    <form id="spender">
+        <input type="submit" value="spend">
+        <input type="text" id="coins" placeholder="num of coins">
+    </form>
+    <form id="saver">
+        <input type="submit" value="save">
+        <input type="text" id="key" placeholder="key">
+        <input type="text" id="value" placeholder="value">
+    </form>
+    <form id="getter">
+        <input type="submit" value="get">
+        <input type="text" id="key" placeholder="key">
+    </form>
+</body>
+</html>
